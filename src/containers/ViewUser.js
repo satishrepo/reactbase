@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { viewUser, updateUser } from '../actions/ViewUser';
-import ViewUser from '../user/ViewUser';
+import { logout } from '../actions/Login'
+import ViewUser from '../components/user/ViewUser';
 
 const mapStateToProps = state => {
     return {
@@ -11,14 +12,16 @@ const mapStateToProps = state => {
         viewUserStatus: state.viewUserReducer.viewUserStatus,
         viewUserResponse: state.viewUserReducer.viewUserResponse,
         viewUserError: state.viewUserReducer.viewUserError,
-        viewUserUpdate: state.viewUserReducer.viewUserUpdate
+        viewUserUpdate: state.viewUserReducer.viewUserUpdate,
+        viewUserStatusCode: state.viewUserReducer.viewUserStatusCode   
     }
 }
 
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators({
         viewUser,
-        updateUser
+        updateUser,
+        logout
     }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewUser);

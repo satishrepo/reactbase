@@ -5,7 +5,8 @@ const INIT_STATE = {
     viewUserStatus: '',
     viewUserResponse: [],
     viewUserError: {},
-    viewUserUpdate: false
+    viewUserUpdate: false,
+    viewUserStatusCode: null
 }
 
 export default function viewUserReducer(state = INIT_STATE, action) {
@@ -22,7 +23,8 @@ export default function viewUserReducer(state = INIT_STATE, action) {
                 viewUserInit: false,
                 viewUserSuccess: true,
                 viewUserStatus: 'success',
-                viewUserResponse: action.response
+                viewUserResponse: action.response,
+                viewUserStatusCode: action.statusCode
             }
         case 'VIEW_USER_FAILED':
             return {
@@ -31,7 +33,8 @@ export default function viewUserReducer(state = INIT_STATE, action) {
                 viewUserSuccess: false,
                 viewUserFailed: true,
                 viewUserStatus: 'failed',
-                viewUserError: action.error
+                viewUserError: action.error,
+                viewUserStatusCode: action.statusCode
             }
             case 'VIEW_USER_UPDATE':
                 return {

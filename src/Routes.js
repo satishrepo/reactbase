@@ -14,7 +14,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -37,7 +37,11 @@ import ViewUser from './containers/ViewUser';
 import AddUser from './containers/AddUser';
 import GuardedRoute from './common/GuardedRoutes';
 import LoginLink from './containers/LoginLink'
-import { getLocalStorage, removeLocalStorage, clearLocalStorage } from './common/services/LocalStorage';
+import Logout from './containers/Logout'
+import AddProduct from './containers/AddProduct'
+import ProductList from './containers/ProductList'
+import Cart from './containers/Cart'
+// import { getLocalStorage, removeLocalStorage, clearLocalStorage } from './common/services/LocalStorage';
 
 
 const Routes = (props) => {
@@ -133,20 +137,18 @@ const Routes = (props) => {
                     })}
                 >
                     <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, open && classes.hide)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
-                        
-                    </Typography>
-                    <Typography className={classes.fillSpace}></Typography>
-                    <LoginLink />
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={clsx(classes.menuButton, open && classes.hide)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap>&nbsp;</Typography>
+                        <Typography className={classes.fillSpace}></Typography>
+                        <LoginLink />
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -175,6 +177,21 @@ const Routes = (props) => {
                                 <ListItemText inset primary="User"/>
                             </Link>
                         </ListItem>
+                        <ListItem button key="addproduct">
+                            <Link to="/product/add" className={ classes.links }>
+                                <ListItemText inset primary="Add Product"/>
+                            </Link>
+                        </ListItem>
+                        <ListItem button key="productList">
+                            <Link to="/products" className={ classes.links }>
+                                <ListItemText inset primary="Product List"/>
+                            </Link>
+                        </ListItem>
+                        <ListItem button key="cart">
+                            <Link to="/cart" className={ classes.links }>
+                                <ListItemText inset primary="Cart"/>
+                            </Link>
+                        </ListItem>
                         <ListItem button key="todo">
                             <Link to="/todo"className={ classes.links }>
                                 <ListItemText inset primary="Todo"/>
@@ -196,7 +213,11 @@ const Routes = (props) => {
                         <GuardedRoute path="/user/view" component={ViewUser} />
                         <Route path="/todo" component={TodoList} />
                         <Route path="/login" component={Login} />
+                        <Route path="/product/add" component={AddProduct} />
+                        <Route path="/products" component={ProductList} />
+                        <Route path="/cart" component={Cart} />
                     </Switch>
+                    <Route path="/logout" component={Logout} />
                 </main>
             </div>                 
       

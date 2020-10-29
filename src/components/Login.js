@@ -22,10 +22,10 @@ const Login = props => {
     const [formValidationErrors, setFormValidationErrors] = useState({})
 
     useEffect(() => {
-        console.log('loginResponse', loginResponse)
         if (loginStatus) {
             setLocalStorage('loggedUser', { email: loginResponse.user.email, name: loginResponse.user.name })
             setLocalStorage('authToken', { token: loginResponse.token })
+            props.loadCategory()
             history.push('/user/view')
         }
     }, [loginInProgress])
@@ -56,7 +56,6 @@ const Login = props => {
     const showError = (errorType) => {
         switch(errorType) {
             case 1: 
-                console.log('ssss')
                 // return <Alert severity="error">Invalid login credentials</Alert>
                 return <SnackBar show={true} message="Invalid Login Credentials" type="error"></SnackBar>
             case 2:

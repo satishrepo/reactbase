@@ -25,7 +25,6 @@ export const login = (userData) => {
         axios.post('http://localhost:3001/users/login', userData)
         .then(response => { 
             const res = response.data
-            console.log('response login', res)
             if(res.statusCode === 200) {
                 dispatch(loginSuccess(res.data))
             } else if (res.statusCode === 400) {

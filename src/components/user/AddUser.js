@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
-import { setLocalStorage } from '../common/services/LocalStorage'
+import { setLocalStorage } from '../../common/services/LocalStorage'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container';

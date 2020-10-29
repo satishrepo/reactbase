@@ -4,7 +4,7 @@ const INIT_STATE = {
     loginInit: false,
     loginSuccess: false,
     loginError: 0,
-    loginStatus: getLocalStorage('loggedUser') ? true : false,
+    loginStatus: getLocalStorage('loggedUser') && getLocalStorage('authToken') ? true : false,
     loginResponse: {},
     loginInProgress: false
 }

@@ -6,10 +6,13 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 import store from './store/configureStore';
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <SnackbarProvider maxSnack={3}>
+      <App />
+    </SnackbarProvider>
   </Provider>,
   document.getElementById('root')
 );

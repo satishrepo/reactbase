@@ -1,4 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { clearLocalStorage } from '../../common/services/LocalStorage'
 import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,25 +11,39 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Pagination from '@material-ui/lab/Pagination';
 
 
 const ViewUser = props => {
   console.log('props view user', props)
   const [userList, setUserList] = useState([]);
-  const { viewUserStatus, viewUserResponse } = props;
+  const [totalPages, setTotalPages] = useState(0)
+  const { viewUserStatus, viewUserResponse, viewUserStatusCode } = props;
+  const history = useHistory()
 
   useEffect(() => {
+    loadUsers({}, 1)
+  }, [])
+  
+  useEffect(() => {
     if (viewUserStatus === 'success') {
-      setUserList(viewUserResponse);
-    } else if (viewUserStatus === '') {
-      props.viewUser();
+      setUserList(viewUserResponse.records);
+      setTotalPages(Math.ceil(viewUserResponse.pagingData.total/viewUserResponse.pagingData.perPage))
     }
+
+    if (viewUserStatusCode === 403) {
+      history.push('/logout')
+    }
+
   }, [viewUserStatus])
 
   const useStyles = makeStyles({
     table: {
       minWidth: 400,
     },
+    root: {
+      margin: '8px'
+    }
   });
 
   const classes = useStyles();
@@ -48,6 +64,14 @@ const ViewUser = props => {
       }, error => {
         console.log('Error occurred: ', error)
       })
+  }
+
+  const loadUsers = (event, page) => {
+    const pageObj = {
+      currentPage: page,
+      perPage: 2
+    }
+    props.viewUser(pageObj);
   }
 
   return (
@@ -71,12 +95,17 @@ const ViewUser = props => {
                   <TableCell align="left">{user.email}</TableCell>
                   <TableCell align="left" key={user._id.toString()}>
                     <Button variant="contained" onClick={() => deleteUser(user._id)}>Delete</Button>
-                    </TableCell>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+
+        <div className={classes.root}>
+          <Pagination count={totalPages} color="primary" onChange={loadUsers} variant="outlined" shape="rounded"/>
+        </div>
+        
       </Container>
     </Fragment>
   )
