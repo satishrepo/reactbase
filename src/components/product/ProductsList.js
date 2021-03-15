@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState, useCallback } from 'react'
 import { Container, Grid, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 const ProductList = props => {
 
     const [productsList, setProductList] = useState([])
+    const { productListResponse, productList } = props
 
     const useStyles = makeStyles({
         root: {
@@ -24,26 +25,47 @@ const ProductList = props => {
 
     const classes = useStyles();
 
-    useEffect(() =>{
-        if (props.productListResponse.length) {
-            setProductList(props.productListResponse)
+    /* 
+    // one way to load
+    const loadProducts = useCallback( () => {
+        if (productListResponse.length) {
+            setProductList(productListResponse)
         } else {
-            loadProducts()
+            productList()
         }
-    }, [props.productListResponse])
+    }, [productListResponse, productList])
 
-    const loadProducts = () => {
-        props.productList()
-    }
+    useEffect(() =>{
+        loadProducts()
+    }, [loadProducts]) 
+    */
+
+    useEffect(() => {
+        if (productListResponse.length) {
+            setProductList(productListResponse)
+        } else {
+            productList()
+        }
+    }, [productListResponse, productList])
+
 
     const onProductDetail = (productObj) => {
         console.log('product ', productObj)
     }
 
     const addToCart = (item) => {
-        item['quantity'] = 1
-        item['totalPrice'] = Math.round(item.price.sellPrice -  (item.price.sellPrice * ((item.price.discount || 0)/100)))
-        props.addToCart(item)
+
+        const cartItem = {
+            productId: item._id,
+            sku: item.sku,
+            title: item.title,
+            description: item.description,
+            price: item.price,
+            image: item.images.length ? item.images[0]['fileUrl'] : '',
+            quantity: 1,
+            totalPrice: Math.round(item.price.sellPrice -  (item.price.sellPrice * ((item.price.discount || 0)/100)))
+        }
+        props.addToCart(cartItem)
     }
 
 

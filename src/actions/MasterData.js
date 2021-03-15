@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { get } from '../utils/HttpRequest'
 
 const loadCategoryInit = () => ({
     type: 'LOAD_CATEGORY_INIT'
@@ -18,10 +18,12 @@ const loadCategoryFailure = (error) => ({
 export const loadCategory = () => {
     return (dispatch) => {
         dispatch(loadCategoryInit())
-        axios.get('http://localhost:3001/category')
-        .then((response) => {
-            const data = response.data.data
-            dispatch(loadCategorySuccess(data))
+        const options = {
+            url: 'category'
+        }
+        get(options).then((response) => { 
+            // const data = response.data
+            dispatch(loadCategorySuccess(response))
         })
         .catch((error) => {
             dispatch(loadCategoryFailure(error))

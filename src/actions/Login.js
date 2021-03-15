@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { post } from '../utils/HttpRequest'
 
 const loginInit = () => ({
     type: 'LOGIN_INIT'
@@ -22,9 +22,12 @@ const logoutSuccess = () => ({
 export const login = (userData) => {
     return dispatch => {
         dispatch(loginInit())
-        axios.post('http://localhost:3001/users/login', userData)
-        .then(response => { 
-            const res = response.data
+        const options = {
+            url: 'users/login', 
+            data: userData
+        }
+        post(options).then(response => { 
+            const res = response
             if(res.statusCode === 200) {
                 dispatch(loginSuccess(res.data))
             } else if (res.statusCode === 400) {

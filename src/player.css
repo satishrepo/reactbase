@@ -1,0 +1,321 @@
+.player-container {
+	display: flex;
+	/* flex-wrap: wrap; */
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+#player {
+	width:50%
+}
+
+
+.sidebar {
+	background-color: #475470;
+	font-family: Arial, sans-serif;
+	height: 360px;
+	display: flex;
+	flex-flow: column nowrap;
+	margin: 30px 0;
+	overflow: hidden;
+	width: 360px;
+	margin: 30px 0;
+}
+
+@media screen and (max-width: 1080px) {
+	.sidebar {
+		margin-bottom: 20px;
+		width: 640px;
+	}
+}
+
+.sidebar h3 {
+	color: #fff;
+	font-size: 14px;
+	margin: 0;
+	padding: 20px;
+	text-align: left;
+}
+
+.searchbox {
+	display: block;
+	margin: 10px 20px;
+	position: relative;
+}
+
+.searchbox input {
+	/* background: #fff url("assets/search.png") no-repeat top left; */
+	border-radius: 3px;
+	border: none;
+	color: #000;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 5px 20px 5px 30px;
+	width: 100%;
+}
+
+.searchbox .match {
+	color: #000;
+	font-size: 14px;
+	line-height: 20px;
+	position: absolute;
+	right: 10px;
+	top: 5px;
+}
+
+.transcript {
+	padding: 0 20px;
+	overflow: auto;
+	flex: 1 1 auto;
+}
+
+.transcript p {
+	font-size: 15px;
+	overflow: hidden;
+	text-align: left;
+	color: #fff;
+	line-height: 20px;
+}
+
+.transcript p:empty {
+	display: none;
+}
+
+.transcript span {
+	display: inline;
+	padding: 4px 2px;
+	line-height: 24px;
+	cursor: pointer;
+	color: #fff;
+}
+
+.transcript span.current {
+	background: #00f096;
+	color: #000;
+}
+
+.transcript span:hover {
+	color: #00f096;
+}
+
+.transcript span.current:hover {
+	color: #000;
+}
+
+.transcript span em {
+	background: #666;
+	color: #fff;
+	font-style: normal;
+}
+
+.transcript span em.current {
+	background: #ff0046;
+}
+
+.transcript h4 {
+	margin: 25px 0 15px;
+	text-align: left;
+	color: #fff;
+	font-weight: bold;
+}
+
+.caption-copy {
+	max-width: 640px;
+	margin: 20px auto;
+	text-align: left;
+	padding: 10px;
+}
+
+.caption-copy div,
+.caption-copy ol,
+.caption-copy li {
+	text-align: left;
+	font-size: 20px;
+}
+
+.caption-copy div {
+	font-weight: 400;
+	margin: 15px 0;
+}
+
+.caption-copy ol {
+	margin-left: 15px;
+	margin-top: 20px;
+}
+
+.caption-copy li {
+	margin-bottom: 10px;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+
+
+/********** CSS FOR HUMBARGER MENU **************/
+
+/*
+ * Made by Erik Terwan
+ * 24th of November 2015
+ * MIT License
+ *
+ *
+ * If you are thinking of using this in
+ * production code, beware of the browser
+ * prefixes.
+ */
+
+ body
+ {
+   margin: 0;
+   padding: 0;
+   
+   /* make it look decent enough */
+   background: #232323;
+   color: #cdcdcd;
+   font-family: "Avenir Next", "Avenir", sans-serif;
+ }
+ 
+ #menuToggle
+ {
+   display: block;
+   position: relative;
+   top: 50px;
+   left: 50px;
+   
+   z-index: 1;
+   
+   -webkit-user-select: none;
+   user-select: none;
+ }
+ 
+ #menuToggle a
+ {
+   text-decoration: none;
+   color: #232323;
+   
+   transition: color 0.3s ease;
+ }
+ 
+ #menuToggle a:hover
+ {
+   color: tomato;
+ }
+ 
+ 
+ #menuToggle input
+ {
+   display: block;
+   width: 40px;
+   height: 32px;
+   position: absolute;
+   top: -7px;
+   left: -5px;
+   
+   cursor: pointer;
+   
+   opacity: 0; /* hide this */
+   z-index: 2; /* and place it over the hamburger */
+   
+   -webkit-touch-callout: none;
+ }
+ 
+ /*
+  * Just a quick hamburger
+  */
+ #menuToggle span
+ {
+   display: block;
+   width: 33px;
+   height: 4px;
+   margin-bottom: 5px;
+   position: relative;
+   
+   background: #cdcdcd;
+   border-radius: 3px;
+   
+   z-index: 1;
+   
+   transform-origin: 4px 0px;
+   
+   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+			   background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+			   opacity 0.55s ease;
+ }
+ 
+ #menuToggle span:first-child
+ {
+   transform-origin: 0% 0%;
+ }
+ 
+ #menuToggle span:nth-last-child(2)
+ {
+   transform-origin: 0% 100%;
+ }
+ 
+ /* 
+  * Transform all the slices of hamburger
+  * into a crossmark.
+  */
+ #menuToggle input:checked ~ span
+ {
+   opacity: 1;
+   transform: rotate(45deg) translate(-2px, -1px);
+   background: #232323;
+ }
+ 
+ /*
+  * But let's hide the middle one.
+  */
+ #menuToggle input:checked ~ span:nth-last-child(3)
+ {
+   opacity: 0;
+   transform: rotate(0deg) scale(0.2, 0.2);
+ }
+ 
+ /*
+  * Ohyeah and the last one should go the other direction
+  */
+ #menuToggle input:checked ~ span:nth-last-child(2)
+ {
+   transform: rotate(-45deg) translate(0, -1px);
+ }
+ 
+ /*
+  * Make this absolute positioned
+  * at the top left of the screen
+  */
+ #menu
+ {
+   position: absolute;
+   width: 300px;
+   margin: -100px 0 0 -50px;
+   padding: 50px;
+   padding-top: 125px;
+   
+   background: #ededed;
+   list-style-type: none;
+   -webkit-font-smoothing: antialiased;
+   /* to stop flickering of text in safari */
+   
+   transform-origin: 0% 0%;
+   transform: translate(-100%, 0);
+   
+   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+ }
+ 
+ #menu li
+ {
+   padding: 10px 0;
+   font-size: 22px;
+ }
+ 
+ /*
+  * And let's slide it in from the left
+  */
+ #menuToggle input:checked ~ ul
+ {
+   transform: none;
+ }
+
+
+ /**************** MENU ENDS HERE *******************/

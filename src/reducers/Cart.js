@@ -15,7 +15,7 @@ export default function cartReducer(state = INIT_STATE, action) {
         case 'REMOVE_FROM_CART': 
             return {
                 ...state,
-                cartData: [...state.cartData.filter( item => item._id !== action.item._id)]
+                cartData: [...state.cartData.filter( item => item.productId !== action.item.productId)]
             }
         case 'UPDATE_CART': 
             state.cartData.splice(action.index, 1, action.item)

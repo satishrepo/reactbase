@@ -13,7 +13,7 @@ import { useSnackbar } from 'notistack'
 
 
 const AddProduct = (props) => {
-
+    console.log('Add Product: ', props)
     const initProductModel = {
         title: '',
         description: '',
@@ -43,10 +43,10 @@ const AddProduct = (props) => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
     useEffect(() => {
-        if (props.loadCategorySuccess && props.loadCategoryResponse.records) {
-            setCategoryList(props.loadCategoryResponse.records)
+        if (props.loadCategoryResponse && props.loadCategoryResponse.data) {
+            setCategoryList(props.loadCategoryResponse.data.records)
         }
-        if (!props.loadCategoryResponse.records) {
+        if (!props.loadCategoryResponse || !props.loadCategoryResponse.data) {
             props.loadCategory()
         }
     }, [props.loadCategorySuccess])

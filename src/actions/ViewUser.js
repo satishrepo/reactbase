@@ -1,30 +1,4 @@
-import axios from 'axios'
-import { getLocalStorage } from '../common/services/LocalStorage'
-
-axios.interceptors.request.use(req => {
-    // console.log('Request intercepto', req, )
-    const token = getLocalStorage('authToken')
-    if (!req.url.includes('/login')) {
-        req.headers["Authorization"] = token.token
-    }
-    return req
-    }, error=>{
-        return Promise.reject(error);
-    }
-);
-
-
-axios.interceptors.response.use(res => {
-    console.log('Response interceptor ------ ', res)
-    return res
-    // if (axios.defaults.headers.common["Authorization"]) {
-    //     // return req
-    //     // throw ({message:"the token is not available"});
-    // };
-   },error=>{
-        return Promise.reject(error);
-   }
-);
+import { get } from '../utils/HttpRequest'
 
 const viewUserInit = () => ({
     type: 'VIEW_USER_INIT'
@@ -50,11 +24,11 @@ const viewUserUpdate = (updateData) => ({
 export const viewUser = (pageObj) => {
     return (dispatch) => {
         dispatch(viewUserInit());
-        axios.get(`http://localhost:3001/users?currentPage=${pageObj.currentPage}&perPage=${pageObj.perPage}`)
-        .then(response => {
-            
-            dispatch(viewUserCompleted(response.data.data, response.data.data.statusCode))
-            
+        const options = {
+            url: `users?currentPage=${pageObj.currentPage}&perPage=${pageObj.perPage}`
+        }
+        get(options).then(response => {
+            dispatch(viewUserCompleted(response.data, response.statusCode))
         })
         .catch(function (error) { 
             if (error && error['response']) {

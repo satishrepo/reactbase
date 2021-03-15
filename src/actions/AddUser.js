@@ -1,3 +1,5 @@
+import { post } from '../utils/HttpRequest'
+
 const addUserInit = () => ({
   type: 'ADD_USER_INIT'
 })
@@ -14,15 +16,12 @@ const addUserFailed = (error) => ({
   
 export const addUser = (payload) => {
   return (dispatch) => {
-    const params = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }
     dispatch(addUserInit())
-    fetch('http://localhost:3001/users', params)
-    .then(response => response.json())
-    .then(result => {
+    const options = {
+      url: 'users', 
+      data: payload
+    }
+    post(options).then(result => {
       if (result.statusCode === 200) {
         dispatch(addUserCompleted(result.data))
       } else {

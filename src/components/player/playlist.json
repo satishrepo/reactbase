@@ -1,0 +1,92 @@
+{
+    "title": "Webinar | The State Of HTML5 Video",
+    "description": "As both video and mobile grow exponentially, HTML5 is the standard for delivering high quality, cross-platform experiences. Join JW Player, Google and ReelSEO in this webinar to learn what is possible with HTML5 today, and what will become available in the near future!",
+    "kind": "Single Item",
+    "playlist": [
+      {
+        "title": "Webinar | The State Of HTML5 Video",
+        "mediaid": "3p683El7",
+        "link": "http://www.jwplayer.com/blog/free-webinar-state-html-5-video/",
+        "image": "https://cdn.jwplayer.com/v2/media/3p683El7/poster.jpg?width=720",
+        "images": [
+          {
+            "src": "https://cdn.jwplayer.com/v2/media/3p683El7/poster.jpg?width=320",
+            "width": 320,
+            "type": "image/jpeg"
+          },
+          {
+            "src": "https://cdn.jwplayer.com/v2/media/3p683El7/poster.jpg?width=480",
+            "width": 480,
+            "type": "image/jpeg"
+          },
+          {
+            "src": "https://cdn.jwplayer.com/v2/media/3p683El7/poster.jpg?width=640",
+            "width": 640,
+            "type": "image/jpeg"
+          },
+          {
+            "src": "https://cdn.jwplayer.com/v2/media/3p683El7/poster.jpg?width=720",
+            "width": 720,
+            "type": "image/jpeg"
+          }
+        ],
+        "duration": 4146,
+        "pubdate": 1397753580,
+        "description": "As both video and mobile grow exponentially, HTML5 is the standard for delivering high quality, cross-platform experiences. Join JW Player, Google and ReelSEO in this webinar to learn what is possible with HTML5 today, and what will become available in the near future!",
+        "tags": "html5,webinar,presentation,videositemap,transcription",
+        "sources": [
+          {
+            "file": "https://cdn.jwplayer.com/manifests/3p683El7.mpd",
+            "type": "application/dash+xml",
+            "mediaTypes": [
+              "audio/webm; codecs=\"vorbis\"",
+              "video/webm; codecs=\"vp9\""
+            ]
+          },
+          {
+            "file": "https://cdn.jwplayer.com/manifests/3p683El7.m3u8",
+            "type": "application/vnd.apple.mpegurl"
+          },
+          {
+            "file": "https://cdn.jwplayer.com/videos/3p683El7-injeKYZS.mp4",
+            "type": "video/mp4",
+            "height": 180,
+            "width": 320,
+            "label": "MP4 320px"
+          },
+          {
+            "file": "https://cdn.jwplayer.com/videos/3p683El7-DZ7jSYgM.mp4",
+            "type": "video/mp4",
+            "height": 720,
+            "width": 1280,
+            "label": "MP4 1280px"
+          },
+          {
+            "file": "https://cdn.jwplayer.com/videos/3p683El7-kNspJqnJ.mp4",
+            "type": "video/mp4",
+            "height": 360,
+            "width": 640,
+            "label": "MP4 640px"
+          }
+        ],
+        "tracks": [
+          {
+            "file": "https://cdn.jwplayer.com/tracks/EilhovRX.vtt",
+            "kind": "chapters",
+            "label": "Chapters"
+          },
+          {
+            "file": "https://cdn.jwplayer.com/tracks/iF4AxNRd.vtt",
+            "kind": "captions",
+            "label": "Captions"
+          },
+          {
+            "file": "https://cdn.jwplayer.com/strips/3p683El7-120.vtt",
+            "kind": "thumbnails"
+          }
+        ],
+        "variations": {}
+      }
+    ],
+    "feed_instance_id": "8509fdf3-65c4-48ac-a302-e002873c6405"
+  }

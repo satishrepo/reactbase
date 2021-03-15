@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { get } from '../utils/HttpRequest'
 
 const productListInit = () => ({
     type: 'PRODUCT_LIST_INIT',
@@ -19,9 +19,11 @@ const productListFailure = (error) => ({
 export const productList = () => {
     return (dispatch) => {
         dispatch(productListInit)
-        axios.get('http://localhost:3001/products')
-        .then(response => {
-            dispatch(productListSuccess(response.data.data.records))
+        const options = {
+            url: 'products'
+        }
+        get(options).then(response => {
+            dispatch(productListSuccess(response.data.records))
         })
         .catch(error => {
             console.log(error);

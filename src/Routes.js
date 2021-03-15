@@ -14,7 +14,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -22,16 +21,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import InboxIcon from '@material-ui/icons/MoveToInbox';
-// import MailIcon from '@material-ui/icons/Mail';
 import ListItemText from '@material-ui/core/ListItemText';
 import clsx from 'clsx';
 
 
 import TodoList from './TodoList';
-// import AddUser from './AddUser';
-// import User from './user';
 import Login from './containers/Login';
 import ViewUser from './containers/ViewUser';
 import AddUser from './containers/AddUser';
@@ -40,9 +34,10 @@ import LoginLink from './containers/LoginLink'
 import Logout from './containers/Logout'
 import AddProduct from './containers/AddProduct'
 import ProductList from './containers/ProductList'
-import Cart from './containers/Cart'
-// import { getLocalStorage, removeLocalStorage, clearLocalStorage } from './common/services/LocalStorage';
+import Cart from './components/cart'
+import Order from './components/checkout/Order'
 
+import Player from './components/player'
 
 const Routes = (props) => {
     
@@ -216,6 +211,9 @@ const Routes = (props) => {
                         <Route path="/product/add" component={AddProduct} />
                         <Route path="/products" component={ProductList} />
                         <Route path="/cart" component={Cart} />
+                        {/* <Route path="/shipping" component={Shipping} /> */}
+                        <Route path="/order" component={Order} />
+                        <Route path="/player" component={Player} />
                     </Switch>
                     <Route path="/logout" component={Logout} />
                 </main>

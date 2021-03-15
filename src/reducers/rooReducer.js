@@ -5,6 +5,7 @@ import loginReducer from './Login'
 import loadCategoryReducer from './MasterData'
 import productListReducer from './ProductList'
 import cartReducer from './Cart'
+import shippingReducer from './Shipping'
 
 const mainReducer = combineReducers({
     addUserReducer,
@@ -12,7 +13,8 @@ const mainReducer = combineReducers({
     loginReducer,
     loadCategoryReducer,
     productListReducer,
-    cartReducer
+    cartReducer,
+    shippingReducer
 })
 
 const rootReducer = (state, action) => {

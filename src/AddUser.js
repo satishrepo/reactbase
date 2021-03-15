@@ -28,7 +28,6 @@ class AddUser extends Component {
     registerUser = this.registerUser.bind(this);
 
     registerUser(e) {
-        console.log('hiiii', this.name.value, this.email.value)
 
         e.preventDefault();
 

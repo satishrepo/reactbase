@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import Routes from './Routes'
+import './player.css';
+// import Routes from './Routes'
+import Routes from './Routes-temp'
 
 const App = (props) => {
   return (

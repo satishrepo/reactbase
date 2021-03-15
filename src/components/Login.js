@@ -3,14 +3,21 @@ import { useHistory } from 'react-router-dom'
 import { setLocalStorage } from '../common/services/LocalStorage';
 import { Paper, Grid, TextField, Button, Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles'
-import { Face, Fingerprint } from '@material-ui/icons'
+import { DataUsageTwoTone, Face, Fingerprint } from '@material-ui/icons'
 import Alert from '@material-ui/lab/Alert';
 import SnackBar from './SnackBar'
+
+import { google, outlook, office365, yahoo, ics } from "calendar-link";
 
 
 const Login = props => {
 
-    console.log('IN LOGIN', props)
+    const event = {
+        title: "My birthday party",
+        description: "Be there!",
+        start: "2020-12-30 13:20:22",
+        duration: [3, "hour"],
+    };
 
     const initUser = {
         email: '',
@@ -167,6 +174,7 @@ const Login = props => {
                     </Grid>
                     { showError(loginError) }
                 </div>
+                <div><a href={google(event)} target="__blank" >Click</a></div>
             </Paper>
         </Container>
     );
