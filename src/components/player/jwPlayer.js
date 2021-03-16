@@ -3,18 +3,30 @@ import playList from './playlist.json'
 import ReactJWPlayer from 'react-jw-player'
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-// import parse from "html-react-parser";
-// import LoaderComponent from "../../common/loaderComponent";
-// import { baseURL } from "../../common/appURL";
-// import network from "../../assets/network.svg";
-// import SnackbarContentWrapper from "../Common/snackbarComponent";
-// import Snackbar from "@material-ui/core/Snackbar";
-// import { timeInSeconds } from "../../common/const";
+import Switch from '@material-ui/core/Switch';
+
+
+const Input = (props) => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        props.onSearch(event)
+      }
+    }
+  
+    return <input id="search" type="search" className="search" onKeyDown={handleKeyDown} />
+}
+
+const Template = (props) => {
+    return <div 
+            style={{fontSize: props.fontSize}}
+            id="transcript" 
+            className="transcript" 
+            dangerouslySetInnerHTML={{__html: props.html}} />
+}
 
 const JWPlayer = (props) => {
-    const [videoLink, setVideoLink] = useState(playList)
-    const [isPalying, setIsPalying] = useState(true);
-    const [compeleteVideo, setCompeleteVideo] = useState(false);
+    const [videoLink, setVideoLink] = useState([])
+    
 
     const [chapters, setChapters] = useState([]);
     const [captions, setCaptions] = useState([]);
@@ -23,10 +35,12 @@ const JWPlayer = (props) => {
     const [query, setQuery] = useState("");
     const [cycle, setCycle] = useState(-1);
     const [html, setHtml] = useState("")
+    const [searchText, setSearchText] = useState('')
+    const [syncScript, setSyncScript] = useState(true)
+    const [syncScriptFontSize, setSyncScriptFontSize] = useState(10)
     
     useEffect(() => {
         setVideoLink(playList)
-
         loadChapters()
     }, [])
 
@@ -40,33 +54,34 @@ const JWPlayer = (props) => {
         ])
         .then(textData => textData.map(t => t.split('\n\r\n').splice(1).map(s => parse(s))))
         .then(parsedData => {
-            console.log('kkk', parsedData[0])
+            // console.log('kkk', parsedData[0])
             setCaptions(parsedData[0])
             setChapters(parsedData[1])
             // loadCaptions();
+
         });
     }
 
-    useEffect(() =>{
-        console.log('effect captions')
+    useEffect(() => {
         loadCaptions();
     },[captions, chapters])
 
-    useEffect(() =>{
-        console.log('effect captions')
+    useEffect(() => {
         appendContent();
     },[html])
+
+    
 
     const loadCaptions = () => {
         var h = "<p>";
         var section = 0;
         // console.log('captions', captions, chapters)
         captions.forEach((caption, i) => {
-          if (section < chapters.length && caption.begin > chapters[section].begin) {
-            h += "</p><h4>"+chapters[section].text+"</h4><p>";
-            section++;
-          }
-          h += `<span id="caption${i}">${caption.text}</span>`;
+            if (section < chapters.length && caption.begin > chapters[section].begin) {
+                h += "</p><h4>"+chapters[section].text+"</h4><p>";
+                section++;
+            }
+            h += `<span id="caption${i}">${caption.text}</span>`;
         });
         let ht = html
         ht += h+"</p>";
@@ -97,13 +112,16 @@ const JWPlayer = (props) => {
     }
       
     const onProgress = (e) => {
+        if (!syncScript) {
+            return 
+        }
         var p = e.position;
         for(let j = 0; j<captions.length; j++) {
             if(captions[j].begin < p && captions[j].end > p) {
             if(j !== caption) {
                 var c = document.getElementById(`caption${j}`);
                 var transcript = document.getElementById(`transcript`);
-                console.log('c', c)
+                // console.log('c', c)
                 if(caption > -1) {
                     document.getElementById(`caption${caption}`).className = "";
                 }
@@ -121,35 +139,119 @@ const JWPlayer = (props) => {
   
 
 
-    const onComplete = (e) => {
-      
-    }
-
     const videoLoad = (e) => {
-        setIsPalying(isPalying => true)
+        let transcript = document.getElementById('transcript')
+        transcript.addEventListener('click', function(e) {
+            if (e.target.id.indexOf('caption') === 0) {
+                let i = Number(e.target.id.replace('caption', ''));
+                if (captions.length && captions[i] && captions[i].begin) {
+                    onSeek(captions[i].begin);
+                }
+            }
+        });
     }
 
-    const onPause = (e) => {
-        setIsPalying(isPalying => false)
-        // clearInterval(timer)
-    }
 
-    const onResume = (e) => {
-        setIsPalying(isPalying => true)
-    }
-
-    const onSeek = (e) => {
-        // let data = {
-        //     courseId: props.courseId,
-        //     assetId: props.assetsId,
-        //     timeSpent: Math.round(e.offset),
-        //     courseStatus: "incomplete"
-        // };
-        // props.updateAccessedTime(data)
+    const onSeek = (e) => { 
+        // console.log(window.jwplayer())
+        window.jwplayer().seek(e)
     }
 
     const appendContent = () => {
         return {__html: html};
+    }
+
+
+    const sanitizeRegex = q => {
+        return q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    const onSearch = (e) => {
+        let q = e.target.value.toLowerCase();
+        if (q.length) {
+            console.log('query', query, 'cycle', cycle)
+            if (q === query) {
+                let thisCycle;
+                if (e.shiftKey) {
+                    thisCycle = cycle <= 0 ? (matches.length - 1) : (cycle - 1);
+                } else {
+                    thisCycle = (cycle >= matches.length - 1) ? 0 : (cycle + 1);
+                }
+                console.log('thisCycle', thisCycle);
+                cycleSearch(thisCycle);
+                return;
+            }
+            resetSearch();
+            searchTranscript(q);
+            return;
+        }
+        resetSearch();
+    }
+
+    useEffect( () => {
+        if(matches.length) {
+            cycleSearch(0)
+        }
+    }, [matches])
+
+    const searchTranscript = (q) => {
+        let newMatches = []
+        setQuery(q)
+        captions.forEach(({ text }, loc) => {
+            let matchSpot = text.toLowerCase().indexOf(q);
+            if (matchSpot > -1) {
+                console.log(text, loc)
+                const replacer = sanitizeRegex(q);
+                document.getElementById(`caption${loc}`).innerHTML = text.replace(new RegExp(`(${replacer})`, 'gi'), `<em class="current">$1</em>`, );
+                newMatches.push(loc)
+            }
+        });
+        setMatches(newMatches)
+        // if(matches.length) {
+        //   cycleSearch(0);
+        // } 
+        // else {
+        //   resetSearch();
+        // }
+    }
+
+    const cycleSearch =(i) => {
+        let match = document.getElementById('match');
+        let transcript = document.getElementById('transcript');
+        
+        console.log('cycleSearch', i, matches[i])
+        if (cycle > -1) {
+            let o = document.getElementById(`caption${matches[cycle]}`);
+            o.querySelector('em').className = '';
+        }
+        
+        // console.log('matches[i]', matches[i]);
+        if (matches[i]) {
+            const c = document.getElementById(`caption${~~matches[i]}`);    
+            c.querySelector('em').className = 'current';
+            match.textContent = `${i + 1} of ${matches.length}`;
+            transcript.scrollTop = c.offsetTop - transcript.offsetTop - 40;
+            // cycle = i;
+            setCycle(i)
+        }
+
+    }
+
+    const resetSearch = () => {
+        if (matches.length) {
+          captions.forEach((caption, i) => {
+            document.getElementById(`caption${~~i}`).textContent = caption.text;
+          });
+        }
+        
+        setQuery('')
+        setMatches([])
+        setCycle(-1)
+        // transcript.scrollTop = 0;
+    }
+
+    const toggleSyncScript = () => {
+        setSyncScript(!syncScript)
     }
 
     return (
@@ -163,18 +265,37 @@ const JWPlayer = (props) => {
                             isAutoPlay={true}
                             onVideoLoad={(e) => videoLoad(e)}
                             onTime={(e) => onProgress(e)}
-                            onPause={(e) => onPause(e)}
-                            onResume={(e) => onResume(e)}
-                            onComplete={(e) => onComplete(e)}
-                            onSeek={(e) => onSeek(e)}
+                            // onPause={(e) => onPause(e)}
+                            // onResume={(e) => onResume(e)}
+                            // onComplete={(e) => onComplete(e)}
+                            // onSeek={(e) => onSeek(e)}
                             />
                     </div>
                     <div className="sidebar">
                         <div id="searchbox" className="searchbox">
-                            <span id="match" className="match">0 of 0</span>
-                            <input id="search" type="search" className="search" />
+                            <span id="match" className="match">0 of {matches.length}</span>
+                            <Input onSearch={onSearch}/>
                         </div>
-                        <div id="transcript" className="transcript" dangerouslySetInnerHTML={appendContent()}></div>
+                        <div className="sync-script-toggle-bar">
+                            <div>Sync Typescript</div>
+                            <div className="font-size">
+                                <span className="small" onClick={() => setSyncScriptFontSize(10)}>A</span>
+                                <span className="medium" onClick={() => setSyncScriptFontSize(14)}>A</span>
+                                <span className="large" onClick={() => setSyncScriptFontSize(17)}>A</span>
+                            </div>
+                            <div>
+                                <Switch
+                                    checked={syncScript}
+                                    onChange={toggleSyncScript}
+                                    name="synScript"
+                                    color="primary"
+                                    // inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />
+                            </div>
+
+                        </div>
+                        {/* <div id="transcript" className="transcript" dangerouslySetInnerHTML={appendContent()}></div> */}
+                        <Template html={html} fontSize={syncScriptFontSize} />
                     </div>
                 </div>
                     
